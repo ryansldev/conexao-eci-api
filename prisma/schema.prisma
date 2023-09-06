@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  id          String  @id @default(uuid())
+  name        String
+  login       String  @unique
+  email       String  @unique
+  password    String
+  profile_pic String?
+  room        String
+}
+
+model Teacher {
+  id          String  @id @default(uuid())
+  name        String
+  profile_pic String?
+}
+
+model Challenge {
+  id         String       @id @default(uuid())
+  title      String
+  challenged Challenged[]
+}
+
+model Challenged {
+  id          String @id @default(uuid())
+  name        String
+  rating      Int    @default(1400)
+  profile_pic String
+
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  challengeId String
+}
+
+model Poll {
+  id       String       @id @default(uuid())
+  question String
+  options  PollOption[]
+}
+
+model PollOption {
+  id    String @id @default(uuid())
+  title String
+  votes Int
+
+  poll   Poll?   @relation(fields: [pollId], references: [id])
+  pollId String?
+}

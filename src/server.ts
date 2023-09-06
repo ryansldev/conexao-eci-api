@@ -1,8 +1,9 @@
 import Fastify from 'fastify'
-import { appRoutes } from './routes'
+import { appRoutes, appUnauthenticatedRoutes } from './routes'
 
 const app = Fastify()
 app.register(appRoutes)
+app.register(appUnauthenticatedRoutes)
 
 app.listen({
   port: Number(process.env.PORT),
