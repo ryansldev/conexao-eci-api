@@ -71,6 +71,16 @@ export class ChallengedController {
 
     const { id: challengeId } = createChallengeParams.parse(request.params)
 
+    const challenge = await prisma.challenge.findFirst({
+      where: {
+        id: challengeId
+      }
+    })
+
+    if(!challenge) {
+      return reply.status(404).send({ message: 'Challenge not found' })
+    }
+
     const duelBody = z.object({
       aid: z.string().uuid(),
       bid: z.string().uuid(),
@@ -85,6 +95,7 @@ export class ChallengedController {
 
     const a = await prisma.challenged.findFirst({
       where: {
+        challengeId,
         id: aid,
       }
     })
@@ -133,6 +144,15 @@ export class ChallengedController {
       },
       data: {
         rating: rb,
+      }
+    })
+
+    await prisma.challenge.update({
+      where: {
+        id: challengeId,
+      },
+      data: {
+        votes: challenge.votes + 1,
       }
     })
 
