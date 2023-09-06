@@ -1,0 +1,27 @@
+{
+  "name": "conexao-eci-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "dotenv -e .env.development -- tsx watch src/server.ts",
+    "migrate:dev": "dotenv -e .env.development -- npx prisma migrate dev",
+    "migrate:deploy": "dotenv -e .env.production -- npx prisma migrate deploy",
+    "seed:dev": "dotenv -e .env.development -- npx prisma db seed",
+    "studio:dev": "dotenv -e .env.development -- npx prisma studio",
+    "build": "dotenv -e .env.production -- tsup src",
+    "start": "dotenv -e .env.production -- node dist/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^4.22.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.9",
+    "dotenv-cli": "^7.3.0",
+    "tsx": "^3.12.8",
+    "typescript": "^5.2.2"
+  }
+}
