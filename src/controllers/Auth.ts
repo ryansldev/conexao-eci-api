@@ -2,7 +2,6 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 import { prisma } from '../lib/prisma';
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
 
 export class AuthController {
   async create(request: FastifyRequest, reply: FastifyReply) {
@@ -30,12 +29,8 @@ export class AuthController {
       return reply.status(400).send({ message: 'Login or password is invalid' })
     }
 
-    const jwtSecret = process.env.JWT_SECRET!;
-
-    const token = jwt.sign({
+    const token = request.server.jwt.sign({
       id: student.id,
-    }, jwtSecret, {
-      expiresIn: 86400,
     })
 
     return reply.status(200).send({

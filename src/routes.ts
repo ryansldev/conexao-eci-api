@@ -17,7 +17,13 @@ const challengeController = new ChallengeController()
 const challengedController = new ChallengedController()
 
 export async function appRoutes(app: FastifyInstance) {
-  app.addHook('onRequest', authMiddleware)
+  app.addHook('onRequest', async (request, reply) => {
+    try {
+      await request.jwtVerify()
+    } catch (err) {
+      reply.send(err)
+    }
+  })
   
   app.post('/students', studentController.create)
   app.get('/students', studentController.list)
