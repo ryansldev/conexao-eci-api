@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { prisma } from '../lib/prisma';
 import bcrypt from 'bcrypt'
 
-export class UserController {
+export class StudentController {
   async list() {
     const students = await prisma.student.findMany()
     return students.map(({
