@@ -10,10 +10,10 @@ if(!process.env.JWT_SECRET) {
   throw new Error("JWT Secret not found")
 }
 
+app.register(cors)
 app.register(jwt, {
   secret: process.env.JWT_SECRET,
 })
-app.register(cors)
 app.register(appRoutes)
 app.register(appUnauthenticatedRoutes)
 
